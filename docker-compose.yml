@@ -8,14 +8,16 @@ services:
         container_name: todo_list_laravel_api_container
         image: sail-8.2/app
         extra_hosts:
-            - 'host.docker.internal:host-gateway'
+            - 'docker.for.mac.localhost:host-gateway'
         ports:
             - '${APP_PORT:-80}:80'
+        expose:
+            - "9003"
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=docker.for.mac.localhost}'
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
         volumes:
             - '.:/var/www/html'
