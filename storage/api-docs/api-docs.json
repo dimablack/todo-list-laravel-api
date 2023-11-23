@@ -1,0 +1,721 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Todo List Api Version 1",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/": {},
+        "/api/sanctum/token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Create JWT token",
+                "operationId": "e0a0a36369bd835ea2890ffe60a9ffb1",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "test1@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "example": "5fa8hgd2-563c-4rtf-bb0a-ab51967f456c"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "test1@example.com"
+                                                        },
+                                                        "email_verified_at": {
+                                                            "type": "string",
+                                                            "example": "2023-11-20T12:00:00Z"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "example": "2023-11-20T12:00:00Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "example": "2023-11-20T12:00:00Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "authorization": {
+                                                    "properties": {
+                                                        "token": {
+                                                            "type": "string",
+                                                            "example": "your_jwt_token_here"
+                                                        },
+                                                        "type": {
+                                                            "type": "string",
+                                                            "example": "bearer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "error": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Invalid credentials"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sanctum/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "operationId": "5e6c69da3b03e68cad8324716a278e35",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{user}/tasks": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Get a paginated list of tasks for a user",
+                "operationId": "615f31535e3648ff8dc94afaf6c882ab",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/user_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/status"
+                    },
+                    {
+                        "$ref": "#/components/parameters/priority"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort[0][field]"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort[0][direct]"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort[1][field]"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort[1][direct]"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [User] 9aa8bcd2-833c-4fef-bb0a-ab51967f92c"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Store a new Task",
+                "operationId": "3aea10f17c0e2f0ce9ed842bbaa262a4",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/user_id"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Create a new task for the specified user",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreTaskRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful task creation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "This action is unauthorized."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [User] 9aa8bcd2-833c-4fef-bb0a-ab51967f92c"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ValidationError": {
+                "title": "Validation error response",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "errors": {
+                        "properties": {
+                            "email": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "password": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreTaskRequest": {
+                "title": "Store Task Request",
+                "description": "Request body for creating a new task",
+                "properties": {
+                    "parent_id": {
+                        "description": "Optional parent task ID",
+                        "type": "string",
+                        "example": "9aa8c264-462d-4a68-8c6d-09629cdb1127",
+                        "nullable": true
+                    },
+                    "priority": {
+                        "description": "Task priority level (1-5)",
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "title": {
+                        "description": "Task title",
+                        "type": "string",
+                        "example": "Task Title"
+                    },
+                    "description": {
+                        "description": "Optional task description",
+                        "type": "string",
+                        "example": "Task Description",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "TaskCollection": {
+                "title": "Task Success TaskCollection",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "example": "9aa91a70-b419-4bf7-95c9-37a09342ef66"
+                                },
+                                "parent_id": {
+                                    "type": "string",
+                                    "example": null,
+                                    "nullable": true
+                                },
+                                "user_id": {
+                                    "type": "string",
+                                    "example": "9aa8bcd2-833c-4fef-bb0a-ab51967f925c"
+                                },
+                                "status": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "priority": {
+                                    "type": "integer",
+                                    "example": 4
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "example": "Est optio unde."
+                                },
+                                "created_at": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "example": "2023-11-20T20:07:17.000000Z"
+                                },
+                                "completed_at": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "example": "2023-10-30 20:27:13",
+                                    "nullable": true
+                                },
+                                "status_name": {
+                                    "type": "string",
+                                    "example": "Done"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://some.site/api/users/9aa8bcd2-833c-4fef-bb0a-ab51967f925c/tasks?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://some.site/api/users/9aa8bcd2-833c-4fef-bb0a-ab51967f925c/tasks?page=5"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://some.site/api/users/9aa8bcd2-833c-4fef-bb0a-ab51967f925c/tasks?page=2",
+                                "nullable": true
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "from": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 5
+                            },
+                            "links": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "url": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "label": {
+                                            "type": "string",
+                                            "example": "&laquo; Previous"
+                                        },
+                                        "active": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "path": {
+                                "type": "string",
+                                "example": "http://some.site/api/users/9aa8bcd2-833c-4fef-bb0a-ab51967f925c/tasks"
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 2
+                            },
+                            "to": {
+                                "type": "integer",
+                                "example": 2
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 10
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "TaskResource": {
+                "title": "Task Success Response",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "example": "9aa8c705-b08c-4d9a-ba1b-a8510a80bdac"
+                            },
+                            "parent_id": {
+                                "type": "string",
+                                "example": "9aa8c705-b63c-40ec-b77b-0e5f91da7a74",
+                                "nullable": true
+                            },
+                            "status": {
+                                "type": "integer",
+                                "example": 0
+                            },
+                            "status_name": {
+                                "type": "string",
+                                "example": "Todo"
+                            },
+                            "priority": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Task Title"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": "Task Description",
+                                "nullable": true
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "example": "2000-01-01 23:59:59"
+                            },
+                            "completed_at": {
+                                "type": "string",
+                                "example": null,
+                                "nullable": true
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "parameters": {
+            "user_id": {
+                "name": "user",
+                "in": "path",
+                "description": "ID of the user for whom the task is being created",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "9aa8bcd2-833c-4fef-bb0a-ab51967f925c"
+            },
+            "status": {
+                "name": "status",
+                "in": "query",
+                "description": "Filter by task status(e.g. 1 - Todo, 2 - Done)",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "1"
+            },
+            "priority": {
+                "name": "priority",
+                "in": "query",
+                "description": "Filter by task priority",
+                "schema": {
+                    "type": "integer"
+                },
+                "example": "3"
+            },
+            "search": {
+                "name": "search",
+                "in": "query",
+                "description": "Full-text search in title or description",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "important task"
+            },
+            "sort[0][field]": {
+                "name": "sort[0][field]",
+                "in": "query",
+                "description": "First sort field(in:created_at,completed_at,priority)",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "created_at"
+            },
+            "sort[0][direct]": {
+                "name": "sort[0][direct]",
+                "in": "query",
+                "description": "First direction of sort field(in:asc,desc)",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "asc"
+            },
+            "sort[1][field]": {
+                "name": "sort[1][field]",
+                "in": "query",
+                "description": "Second sort field(in:created_at,completed_at,priority)",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "priority"
+            },
+            "sort[1][direct]": {
+                "name": "sort[1][direct]",
+                "in": "query",
+                "description": "Second direction of sort field(in:asc,desc)",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "desc"
+            }
+        },
+        "securitySchemes": {
+            "token": {
+                "type": "http",
+                "description": "Enter Bearer Token",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

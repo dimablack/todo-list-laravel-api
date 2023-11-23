@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\LogoutController;
+use App\Http\Controllers\API\Task\UserTaskController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +18,7 @@ use App\Http\Controllers\API\Auth\LogoutController;
 
 Route::post('/sanctum/token', [LoginController::class, 'login']);
 
-
-
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/sanctum/logout', [LogoutController::class, 'logout']);
+    Route::apiResource('users.tasks', UserTaskController::class)->only('store', 'index');
 });

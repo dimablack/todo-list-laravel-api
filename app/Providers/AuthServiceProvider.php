@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
+use App\Models\Task;
+use App\Models\User;
+use App\Policies\TaskPolicy;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -13,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Task::class => TaskPolicy::class,
     ];
 
     /**
@@ -21,6 +25,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        /**
+         * Verify that the user from the route matches the authorized user.
+         */
+        Gate::define('check-user-from-route', function (User $user, User $routeUser) {
+            return $user->id == $routeUser->id
+                ? Response::allow()
+                : Response::deny(__('api.auth.forbidden'), 403);
+        });
     }
 }

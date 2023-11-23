@@ -2,21 +2,52 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\ApiController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
 
-class LogoutController extends Controller
+class LogoutController extends ApiController
 {
     /**
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/sanctum/logout",
+     *     summary="Logout user",
+     *     tags={"Auth"},
+     *     @OA\SecurityScheme(
+     *         securityScheme="bearerAuth",
+     *         in="header",
+     *         name="bearerAuth",
+     *         type="http",
+     *         scheme="bearer",
+     *         bearerFormat="JWT",
+     *     ),
+     *     security={
+     *         {"token": {}}
+     *     },
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="success", type="boolean", example=true)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Wrong credentials response",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
+     * @return JsonResponse A JSON response indicating successful logout
      */
     public function logout()
     {
         Auth::user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'success' => true,
-        ]);
+        return $this->responseMessage(__('api.auth.logout'));
     }
 }

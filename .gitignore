@@ -21,3 +21,4 @@ yarn-error.log
 Makefile
 composer.lock
 pint.json
+storage/debugbar/

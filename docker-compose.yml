@@ -1,14 +1,15 @@
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.2
+            context: ./docker/8.2
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
         container_name: todo_list_laravel_api_container
         image: sail-8.2/app
         extra_hosts:
-            - 'docker.for.mac.localhost:host-gateway'
+            - 'host.docker.internal:host-gateway'
+#            - 'docker.for.mac.localhost:host-gateway'
         ports:
             - '${APP_PORT:-80}:80'
         expose:
@@ -17,7 +18,8 @@ services:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=docker.for.mac.localhost}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+#            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=docker.for.mac.localhost}'
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
         volumes:
             - '.:/var/www/html'
@@ -36,7 +38,7 @@ services:
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
             - 'sail-pgsql:/var/lib/postgresql/data'
-            - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+            - './docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
         networks:
             - sail
         healthcheck:
