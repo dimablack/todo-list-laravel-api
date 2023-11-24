@@ -2,11 +2,9 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
 
-trait ApiResponsable
+trait ApiResponsableTrait
 {
     /**
      * Returns a JSON response containing the provided message.

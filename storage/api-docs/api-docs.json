@@ -97,7 +97,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
+                                    "$ref": "#/components/schemas/422"
                                 }
                             }
                         }
@@ -107,25 +107,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        },
-                                        "errors": {
-                                            "properties": {
-                                                "error": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "example": "Invalid credentials"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/401"
                                 }
                             }
                         }
@@ -167,13 +149,209 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/401"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/{task}": {
+            "delete": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Delete a task",
+                "operationId": "a7406ac56cf85985bce27d5a943df31d",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful task deletion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/JsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/401"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/403"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/404"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Update a task",
+                "operationId": "7ff9601268a99f6b4774474e326b898b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update a task",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTaskRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful task update",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/401"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/403"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/404"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/422"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/{task}/complete": {
+            "patch": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Mark a task as complete",
+                "operationId": "70fc014c1c8591b4338727788cc6f004",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful task completion",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/401"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/403"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/404"
                                 }
                             }
                         }
@@ -283,7 +461,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
+                                    "$ref": "#/components/schemas/422"
                                 }
                             }
                         }
@@ -333,13 +511,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/401"
                                 }
                             }
                         }
@@ -349,13 +521,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "This action is unauthorized."
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/403"
                                 }
                             }
                         }
@@ -365,13 +531,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "No query results for model [User] 9aa8bcd2-833c-4fef-bb0a-ab51967f92c"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/404"
                                 }
                             }
                         }
@@ -381,7 +541,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
+                                    "$ref": "#/components/schemas/422"
                                 }
                             }
                         }
@@ -397,7 +557,47 @@
     },
     "components": {
         "schemas": {
-            "ValidationError": {
+            "JsonResponse": {
+                "title": "Successful task deletion",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Success."
+                    }
+                },
+                "type": "object"
+            },
+            "401": {
+                "title": "Unauthenticated access",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Unauthenticated."
+                    }
+                },
+                "type": "object"
+            },
+            "403": {
+                "title": "Unauthorized access",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "This action is unauthorized.."
+                    }
+                },
+                "type": "object"
+            },
+            "404": {
+                "title": "Resource Not Found",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "No query results for model [Model] 9aaf739d-5aeb-4117-ab3a-829e635411172"
+                    }
+                },
+                "type": "object"
+            },
+            "422": {
                 "title": "Validation error response",
                 "properties": {
                     "message": {
@@ -426,6 +626,35 @@
             "StoreTaskRequest": {
                 "title": "Store Task Request",
                 "description": "Request body for creating a new task",
+                "properties": {
+                    "parent_id": {
+                        "description": "Optional parent task ID",
+                        "type": "string",
+                        "example": "9aa8c264-462d-4a68-8c6d-09629cdb1127",
+                        "nullable": true
+                    },
+                    "priority": {
+                        "description": "Task priority level (1-5)",
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "title": {
+                        "description": "Task title",
+                        "type": "string",
+                        "example": "Task Title"
+                    },
+                    "description": {
+                        "description": "Optional task description",
+                        "type": "string",
+                        "example": "Task Description",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateTaskRequest": {
+                "title": "Update Task Request",
+                "description": "Request body for updating an existing task",
                 "properties": {
                     "parent_id": {
                         "description": "Optional parent task ID",
@@ -635,6 +864,16 @@
             }
         },
         "parameters": {
+            "task_id": {
+                "name": "task",
+                "in": "path",
+                "description": "ID of the task to be updated",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "9aaaf739d-5aeb-4117-ab3a-829e635411172"
+            },
             "user_id": {
                 "name": "user",
                 "in": "path",

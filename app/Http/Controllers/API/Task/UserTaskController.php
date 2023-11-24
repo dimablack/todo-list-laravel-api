@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\API\Task;
 
+use App\Abstracts\AbstractTaskController;
 use App\DTOs\RequestDTO\FilterTaskDTO;
 use App\DTOs\RequestDTO\StoreTaskDTO;
 use App\DTOs\Task\TaskDTO;
-use App\Http\Controllers\API\ApiController;
 use App\Http\Requests\Task\IndexTaskRequest;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Models\User;
-use App\Services\ITaskService;
 use OpenApi\Annotations as OA;
 
 /**
@@ -26,13 +25,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Schema(type="string")
  * )
  */
-class UserTaskController extends ApiController
+class UserTaskController extends AbstractTaskController
 {
-    public function __construct(private ITaskService $iTaskService)
-    {
-    }
-
-
     /**
      * @OA\Get(
      *     path="/api/users/{user}/tasks",
@@ -79,11 +73,16 @@ class UserTaskController extends ApiController
      *     @OA\Response(
      *         response=422,
      *         description="Validation error response",
-     *         @OA\JsonContent(ref="#/components/schemas/ValidationError")
+     *         @OA\JsonContent(ref="#/components/schemas/422")
      *     ),
      * )
-     * @param IndexTaskRequest $request
-     * @param User $user
+     *
+     * Display a listing of tasks for the given user.
+     *
+     * @param IndexTaskRequest $request The request object.
+     * @param User $user The user whose tasks are to be displayed.
+     *
+     * @return TaskCollection Returns a collection of tasks.
      */
     public function index(IndexTaskRequest $request, User $user)
     {
@@ -116,35 +115,31 @@ class UserTaskController extends ApiController
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated access",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *         )
+     *         @OA\JsonContent(ref="#/components/schemas/401")
      *     ),
      *     @OA\Response(
      *         response=403,
      *         description="Unauthorized access",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="This action is unauthorized.")
-     *         )
+     *         @OA\JsonContent(ref="#/components/schemas/403")
      *     ),
      *     @OA\Response(
-     *     response=404,
-     *     description="Resource Not Found",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string",
-     *                 example="No query results for model [User] 9aa8bcd2-833c-4fef-bb0a-ab51967f92c")
-     *         )
-     *     ),
+     *          response=404,
+     *          description="Resource Not Found",
+     *          @OA\JsonContent(ref="#/components/schemas/404")
+     *      ),
      *     @OA\Response(
      *         response=422,
      *         description="Validation error response",
-     *         @OA\JsonContent(ref="#/components/schemas/ValidationError")
+     *         @OA\JsonContent(ref="#/components/schemas/422")
      *     ),
      * )
-     * @param StoreTaskRequest $request
-     * @param User $user
-     * @return TaskResource
      *
+     * Store a newly created task for the given user.
+     *
+     * @param StoreTaskRequest $request The request object.
+     * @param User $user The user for whom the task is created.
+     *
+     * @return TaskResource Returns the newly created task resource.
      */
     public function store(StoreTaskRequest $request, User $user)
     {

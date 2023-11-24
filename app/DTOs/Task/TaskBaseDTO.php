@@ -3,10 +3,12 @@
 namespace App\DTOs\Task;
 
 use DateTime;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\DataCollection;
 
-class TaskForCollectionDTO extends Data
+class TaskBaseDTO extends Data
 {
     public string $id;
 
@@ -27,4 +29,7 @@ class TaskForCollectionDTO extends Data
 
     #[MapName('completed_at')]
     public ?DateTime $completedAt = null;
+
+    #[DataCollectionOf(self::class)]
+    public DataCollection $children;
 }

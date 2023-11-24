@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\DTOs\Task\TaskForCollectionDTO;
+use App\DTOs\Task\TaskBaseDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use OpenApi\Annotations as OA;
@@ -83,7 +83,7 @@ class TaskCollection extends ResourceCollection
     {
         return
             $this->collection->transform(function ($item) {
-                $item->resource = TaskForCollectionDTO::from($item->resource);
+                $item->resource = TaskBaseDTO::from($item->resource);
                 return $item;
             })
                 ->toArray();

@@ -37,10 +37,8 @@ class LogoutController extends ApiController
      *     @OA\Response(
      *         response=401,
      *         description="Wrong credentials response",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *         )
-     *     )
+     *         @OA\JsonContent(ref="#/components/schemas/401")
+     *     ),
      * )
      * @return JsonResponse A JSON response indicating successful logout
      */

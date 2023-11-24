@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
-use App\Repositories\ITaskRepository;
+use App\Repositories\Contracts\TaskRepositoryInterface;
 use App\Repositories\TaskRepository;
-use App\Services\ITaskService;
+use App\Services\Contracts\TaskPolicyServiceInterface;
+use App\Services\Contracts\TaskServiceInterface;
+use App\Services\TaskPolicyService;
 use App\Services\TaskService;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,8 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(ITaskRepository::class, TaskRepository::class);
-        $this->app->bind(ITaskService::class, TaskService::class);
+        $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
+        $this->app->bind(TaskServiceInterface::class, TaskService::class);
+        $this->app->bind(TaskPolicyServiceInterface::class, TaskPolicyService::class);
     }
 
     /**

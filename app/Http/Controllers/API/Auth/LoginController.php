@@ -10,7 +10,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     schema="ValidationError",
+ *     schema="422",
  *     title="Validation error response",
  *     @OA\Property(property="message", type="string"),
  *     @OA\Property(property="errors", type="object",
@@ -55,19 +55,13 @@ class LoginController extends ApiController
      *     @OA\Response(
      *         response=422,
      *         description="Validation error response",
-     *         @OA\JsonContent(ref="#/components/schemas/ValidationError")
+     *         @OA\JsonContent(ref="#/components/schemas/422")
      *     ),
      *     @OA\Response(
-     *         response=401,
-     *         description="Wrong credentials response",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unauthenticated."),
-     *             @OA\Property(property="errors", type="object",
-     *                 @OA\Property(property="error", type="array",
-     *                     @OA\Items(type="string", example="Invalid credentials")),
-     *             )
-     *         )
-     *     )
+     *          response=401,
+     *          description="Wrong credentials response",
+     *          @OA\JsonContent(ref="#/components/schemas/401")
+     *     ),
      * )
      * @param LoginRequest $request
      * @return JsonResponse

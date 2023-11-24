@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Contracts;
 
 use App\DTOs\RequestDTO\FilterTaskDTO;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
-interface ITaskRepository
+interface TaskRepositoryInterface
 {
     /**
      * Get all tasks based on the provided filters for a specific user.
@@ -20,11 +20,11 @@ interface ITaskRepository
     public function getAll(FilterTaskDTO $filterTaskData, User $user): Builder;
 
     /**
-     * Create a new task in the repository.
+     * Save a task in the database.
      *
      * @param Task $task
      *
      * @return Task
      */
-    public function create(Task $task): Task;
+    public function save(Task $task): Task;
 }

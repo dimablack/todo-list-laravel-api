@@ -2,9 +2,8 @@
 
 namespace App\Exceptions;
 
-use App\Traits\ApiResponsable;
+use App\Traits\ApiResponsableTrait;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +13,7 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
-    use ApiResponsable;
+    use ApiResponsableTrait;
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *

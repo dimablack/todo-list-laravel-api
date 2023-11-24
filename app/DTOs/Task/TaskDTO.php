@@ -2,7 +2,13 @@
 
 namespace App\DTOs\Task;
 
-class TaskDTO extends TaskForCollectionDTO
+use Spatie\LaravelData\Attributes\DataCollectionOf;
+use Spatie\LaravelData\DataCollection;
+
+class TaskDTO extends TaskBaseDTO
 {
     public ?string $description = null;
+
+    #[DataCollectionOf(self::class)]
+    public DataCollection $children;
 }

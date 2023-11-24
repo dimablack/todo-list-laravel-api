@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Contracts;
 
 use App\DTOs\RequestDTO\FilterTaskDTO;
 use App\DTOs\RequestDTO\StoreTaskDTO;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\LaravelData\Data;
 
-interface ITaskService
+interface TaskServiceInterface
 {
     /**
      * Get all tasks based on the provided filters for a specific user.
@@ -29,4 +30,13 @@ interface ITaskService
      * @return Task
      */
     public function create(StoreTaskDTO $taskData, User $user): Task;
+
+    /**
+     * Update a task using the provided data.
+     *
+     * @param Data $taskData
+     * @param Task $task
+     * @return Task
+     */
+    public function update(Data $taskData, Task $task): Task;
 }

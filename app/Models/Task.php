@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Components\TaskTraversal;
 use App\DTOs\RequestDTO\FilterTaskDTO;
 use App\DTOs\RequestDTO\SortTaskDTO;
 use App\Enums\TaskStatus;
@@ -12,6 +13,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property string $id
+ * @property mixed $parent_id
+ * @property string $userId
+ * @property TaskStatus $status
+ * @property int $priority
+ * @property string $user_id
+ * @property string $title
+ * @property $children
+
+ */
 class Task extends Model
 {
     use HasFactory;
@@ -54,7 +66,7 @@ class Task extends Model
      */
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(static::class, 'parent_id')->whereNull('parent_id')->with('parent');
+        return $this->belongsTo(static::class, 'parent_id');
     }
 
     /**
@@ -64,7 +76,7 @@ class Task extends Model
      */
     public function children(): HasMany
     {
-        return $this->hasMany(static::class, 'parent_id')->with('children');
+        return $this->hasMany(Task::class, 'parent_id')->with('children');
     }
 
     /**
@@ -114,8 +126,6 @@ class Task extends Model
             fn ($query) => $query->priority($filterTaskData->priority)
         );
 
-        //        $values = TaskStatus::values();
-        //        $r = in_array($filterTaskData->status, TaskStatus::values());
         $query->when(
             in_array($filterTaskData->status, TaskStatus::values()),
             fn ($query) => $query->status($filterTaskData->status)
@@ -150,5 +160,46 @@ class Task extends Model
             !empty($filterTaskData->search),
             fn ($query) => $query->whereFullText(['title', 'description'], $filterTaskData->search)
         );
+    }
+
+    /**
+     * Check if a specific condition is met for any task in the tree.
+     *
+     * @param callable $condition The condition callback.
+     *
+     * @return bool Returns true if the condition is met for any task, false otherwise.
+     */
+    private function checkIfTaskExistsInTree(callable $condition): bool
+    {
+        // Traverse the children tasks and check condition.
+        return TaskTraversal::traverse($this, $condition);
+    }
+
+    /**
+     * Check if the specified parent task exists among the children.
+     *
+     * @param string $parentId The ID of the parent task to check.
+     *
+     * @return bool Returns true if the parent task exists among the children, false otherwise.
+     */
+    public function checkIfParentAreInChildren(string $parentId): bool
+    {
+        return $this->checkIfTaskExistsInTree(function (Task $child) use ($parentId) {
+            return $parentId === $child->id;
+        });
+    }
+
+    /**
+     * Check if there is any not completed task among the children.
+     *
+     * @return bool Returns true if there is any not completed task among the children, false otherwise.
+     */
+    public function checkIfExistNotCompletedInChildren(): bool
+    {
+        $statusToCheck = TaskStatus::TODO->value;
+
+        return $this->checkIfTaskExistsInTree(function (Task $child) use ($statusToCheck) {
+            return $statusToCheck === $child->status->value && $this->id !== $child->id;
+        });
     }
 }

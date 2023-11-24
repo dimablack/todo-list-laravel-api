@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Traits\ApiResponsable;
+use App\Traits\ApiResponsableTrait;
 use OpenApi\Annotations as OA;
 
 /**
@@ -19,5 +19,5 @@ use OpenApi\Annotations as OA;
  */
 class ApiController extends Controller
 {
-    use ApiResponsable;
+    use ApiResponsableTrait;
 }

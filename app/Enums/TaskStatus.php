@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Traits\EnumToArray;
+use App\Traits\EnumToArrayTrait;
 
 enum TaskStatus: int
 {
-    use EnumToArray;
+    use EnumToArrayTrait;
 
     case TODO = 1;
     case DONE = 2;

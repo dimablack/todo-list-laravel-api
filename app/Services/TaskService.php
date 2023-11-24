@@ -6,12 +6,14 @@ use App\DTOs\RequestDTO\FilterTaskDTO;
 use App\DTOs\RequestDTO\StoreTaskDTO;
 use App\Models\Task;
 use App\Models\User;
-use App\Repositories\ITaskRepository;
+use App\Repositories\Contracts\TaskRepositoryInterface;
+use App\Services\Contracts\TaskServiceInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\LaravelData\Data;
 
-class TaskService implements ITaskService
+class TaskService implements TaskServiceInterface
 {
-    public function __construct(private readonly ITaskRepository $taskRepository)
+    public function __construct(private readonly TaskRepositoryInterface $taskRepository)
     {
     }
 
@@ -31,6 +33,16 @@ class TaskService implements ITaskService
         $task = new Task($taskData->all());
         $task->user()->associate($user);
 
-        return $this->taskRepository->create($task);
+        return $this->taskRepository->save($task);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(Data $taskData, Task $task): Task
+    {
+        $task->fill($taskData->all());
+
+        return $this->taskRepository->save($task);
     }
 }

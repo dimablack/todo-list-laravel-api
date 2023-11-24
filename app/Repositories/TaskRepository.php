@@ -5,16 +5,20 @@ namespace App\Repositories;
 use App\DTOs\RequestDTO\FilterTaskDTO;
 use App\Models\Task;
 use App\Models\User;
+use App\Repositories\Contracts\TaskRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 
-class TaskRepository implements ITaskRepository
+class TaskRepository implements TaskRepositoryInterface
 {
     /**
      * @inheritDoc
      */
     public function getAll(FilterTaskDTO $filterTaskData, User $user): Builder
     {
-        return $user->tasks()->getQuery()
+        return $user->tasks()
+            ->whereNull('parent_id')
+            ->with('children')
+            ->getQuery()
             ->filterByFields($filterTaskData)
             ->fullTextSearch($filterTaskData)
             ->sortByFields($filterTaskData);
@@ -23,9 +27,10 @@ class TaskRepository implements ITaskRepository
     /**
      * @inheritDoc
      */
-    public function create(Task $task): Task
+    public function save(Task $task): Task
     {
         $task->save();
-        return $task->fresh();
+        $task->load('children');
+        return $task->refresh();
     }
 }
