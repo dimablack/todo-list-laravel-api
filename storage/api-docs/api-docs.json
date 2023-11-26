@@ -727,6 +727,49 @@
                                 "status_name": {
                                     "type": "string",
                                     "example": "Done"
+                                },
+                                "children": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "example": "211b028c-80e4-4c7d-9f70-9a0000000001"
+                                            },
+                                            "parent_id": {
+                                                "type": "string",
+                                                "example": "93d92907-f7b1-4c89-914c-090000000000"
+                                            },
+                                            "status": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "priority": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Ipsam et enim qui."
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-11-26 18:09:42"
+                                            },
+                                            "completed_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": null,
+                                                "nullable": true
+                                            },
+                                            "children": {
+                                                "type": "array",
+                                                "items": {}
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
                                 }
                             },
                             "type": "object"
@@ -855,6 +898,49 @@
                                 "type": "string",
                                 "example": null,
                                 "nullable": true
+                            },
+                            "children": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "211b028c-80e4-4c7d-9f70-9a0000000001"
+                                        },
+                                        "parent_id": {
+                                            "type": "string",
+                                            "example": "93d92907-f7b1-4c89-914c-090000000000"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "priority": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Ipsam et enim qui."
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-11-26 18:09:42"
+                                        },
+                                        "completed_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "children": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
                             }
                         },
                         "type": "object"

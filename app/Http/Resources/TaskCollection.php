@@ -23,6 +23,16 @@ use OpenApi\Annotations as OA;
  *         @OA\Property(property="completed_at", type="string", format="date-time", nullable=true,
  *           example="2023-10-30 20:27:13"),
  *         @OA\Property(property="status_name", type="string", example="Done"),
+ *         @OA\Property(property="children", type="array", @OA\Items(
+ *            @OA\Property(property="id", type="string", example="211b028c-80e4-4c7d-9f70-9a0000000001"),
+ *            @OA\Property(property="parent_id", type="string", example="93d92907-f7b1-4c89-914c-090000000000"),
+ *            @OA\Property(property="status", type="integer", example=1),
+ *            @OA\Property(property="priority", type="integer", example=2),
+ *            @OA\Property(property="title", type="string", example="Ipsam et enim qui."),
+ *            @OA\Property(property="created_at", type="string", format="date-time", example="2023-11-26 18:09:42"),
+ *            @OA\Property(property="completed_at", type="string", format="date-time", nullable=true, example=null),
+ *            @OA\Property(property="children", type="array", @OA\Items())
+ *            ))
  *         )
  *     ),
  *     @OA\Property(property="links", type="object",
