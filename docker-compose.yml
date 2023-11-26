@@ -1,32 +1,33 @@
+version: '3'
+
 services:
-    laravel.test:
-        build:
-            context: ./docker/8.2
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
+
+    php:
         container_name: todo_list_laravel_api_container
-        image: sail-8.2/app
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
-#            - 'docker.for.mac.localhost:host-gateway'
+        build: './docker/php'
         ports:
-            - '${APP_PORT:-80}:80'
-        expose:
-            - "9003"
-        environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-#            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=docker.for.mac.localhost}'
-            IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            - '5173:5173'
         volumes:
             - '.:/var/www/html'
         networks:
-            - sail
+            - 'todo-net'
         depends_on:
             - pgsql
+
+    nginx:
+        container_name: laravel_nginx
+        image: nginx
+        ports:
+            - '${APP_PORT:-80}:80'
+        volumes:
+            - '.:/var/www/html'
+            - './docker/nginx/default.conf:/etc/nginx/conf.d/default.conf'
+            - './docker/nginx/nginx.conf:/etc/nginx/nginx.conf'
+        networks:
+            - 'todo-net'
+        depends_on:
+            - php
+
     pgsql:
         image: 'postgres:15'
         ports:
@@ -37,10 +38,10 @@ services:
             POSTGRES_USER: '${DB_USERNAME}'
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
-            - 'sail-pgsql:/var/lib/postgresql/data'
+            - 'todo-net-pgsql:/var/lib/postgresql/data'
             - './docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
         networks:
-            - sail
+            - 'todo-net'
         healthcheck:
             test:
                 - CMD
@@ -52,9 +53,11 @@ services:
                 - '${DB_USERNAME}'
             retries: 3
             timeout: 5s
+
+
 networks:
-    sail:
+    todo-net:
         driver: bridge
 volumes:
-    sail-pgsql:
+    todo-net-pgsql:
         driver: local
