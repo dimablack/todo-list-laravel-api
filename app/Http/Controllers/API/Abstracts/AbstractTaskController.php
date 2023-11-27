@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Abstracts;
+namespace App\Http\Controllers\API\Abstracts;
 
 use App\Http\Controllers\API\ApiController;
 use App\Services\Contracts\TaskServiceInterface;

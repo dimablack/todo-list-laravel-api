@@ -14,17 +14,35 @@ This Laravel project implements a REST API for a Todo List. The API provides end
 ### For the first time only:
 
 ```bash
+cp .env.example .env
 docker-compose up -d
-docker-compose exec todo_list_laravel_api_container bash
+```
+---
+```bash
+docker exec -it todo_list_laravel_api_container bash
 composer setup
+```
+or
+```bash
+docker exec todo_list_laravel_api_container bash -c 'composer setup'
 ```
 
 ### From the Second Time Onwards:
 ```bash
 docker-compose up -d
-docker-compose exec todo_list_laravel_api_container bash
+docker exec -it todo_list_laravel_api_container bash
 ```
 
+### Stop Docker containers
+```bash
+docker-compose stop
+```
+
+#### Stop and remove Docker containers, networks, and volumes created by
+
+```bash
+docker-compose down
+```
 
 ## Database Operations
 
@@ -62,11 +80,11 @@ docker exec todo_list_laravel_api_container bash -c 'php artisan migrate:fresh -
 docker exec -it todo_list_laravel_api_container bash
 ```
 
-Feel free to explore the API examples in the Laravel PHP files provided in the `routes/api.php` file.
-
 ## Documentation
 
-Explore the API using Swagger documentation by navigating to [http://127.0.0.1:8008/api/docs](http://127.0.0.1:8008/api/docs). 
+Explore the API using Swagger documentation by navigating to [http://127.0.0.1:8008/api/docs](http://127.0.0.1:8008/api/docs).
+
+To use a different port other than **`8008`**, edit the **`APP_PORT=8008`** in the .env file.
 
 This interactive documentation provides detailed information about the available endpoints, request payloads, and responses. Use it to test and understand the functionalities offered by the Todo List REST API.
 

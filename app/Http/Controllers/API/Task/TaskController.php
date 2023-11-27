@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API\Task;
 
-use App\Abstracts\AbstractTaskController;
 use App\DTOs\RequestDTO\CompleteTaskDTO;
 use App\DTOs\RequestDTO\UpdateTaskDTO;
 use App\DTOs\Task\TaskDTO;
+use App\Http\Controllers\API\Abstracts\AbstractTaskController;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;

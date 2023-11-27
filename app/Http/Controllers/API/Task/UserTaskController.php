@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API\Task;
 
-use App\Abstracts\AbstractTaskController;
 use App\DTOs\RequestDTO\FilterTaskDTO;
 use App\DTOs\RequestDTO\StoreTaskDTO;
 use App\DTOs\Task\TaskDTO;
+use App\Http\Controllers\API\Abstracts\AbstractTaskController;
 use App\Http\Requests\Task\IndexTaskRequest;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Resources\TaskCollection;
