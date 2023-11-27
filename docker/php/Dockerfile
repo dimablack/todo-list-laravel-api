@@ -5,26 +5,23 @@ COPY docker.conf /usr/local/etc/php-fpm.d/docker.conf
 COPY .bashrc /root/
 
 RUN apt-get update \
-  && apt-get install -y build-essential zlib1g-dev default-mysql-client curl gnupg procps vim git unzip libzip-dev libpq-dev \
+  && apt-get install -y build-essential zlib1g-dev curl gnupg procps vim git unzip libzip-dev libpq-dev \
   && docker-php-ext-install zip pdo_mysql pdo_pgsql pgsql
 
 RUN apt-get install -y libicu-dev \
 && docker-php-ext-configure intl \
 && docker-php-ext-install intl
 
-# pcov
-#RUN pecl install pcov && docker-php-ext-enable pcov
-
 # Xdebug
-# RUN pecl install xdebug \
-# && docker-php-ext-enable xdebug \
-# && echo ";zend_extension=xdebug" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-# Node.js, NPM, Yarn
-#RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
-#RUN apt-get install -y nodejs
-#RUN npm install npm@latest -g
-#RUN npm install yarn -g
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
+RUN install-php-extensions xdebug
+ENV PHP_IDE_CONFIG 'serverName=patterrn_examples'
+RUN echo "xdebug.mode=develop,debug,coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo "xdebug.client_host=docker.for.mac.localhost" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo "xdebug.client_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo "xdebug.log=/var/log/xdebug.log" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"

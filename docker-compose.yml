@@ -15,7 +15,7 @@ services:
             - pgsql
 
     nginx:
-        container_name: laravel_nginx
+        container_name: nginx_todo_list_laravel_api_container
         image: nginx
         ports:
             - '${APP_PORT:-80}:80'
@@ -30,6 +30,7 @@ services:
 
     pgsql:
         image: 'postgres:15'
+        container_name: pgsql_todo_list_laravel_api_container
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
         environment:
@@ -43,14 +44,7 @@ services:
         networks:
             - 'todo-net'
         healthcheck:
-            test:
-                - CMD
-                - pg_isready
-                - '-q'
-                - '-d'
-                - '${DB_DATABASE}'
-                - '-U'
-                - '${DB_USERNAME}'
+            test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
             retries: 3
             timeout: 5s
 

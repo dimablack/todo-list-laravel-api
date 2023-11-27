@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/sanctum/token', [LoginController::class, 'login']);
+Route::post('/sanctum/token', [LoginController::class, 'login'])->name('api.sanctum.token');
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/sanctum/logout', [LogoutController::class, 'logout']);
+    Route::post('/sanctum/logout', [LogoutController::class, 'logout'])->name('api.sanctum.logout');
     Route::apiResource('users.tasks', UserTaskController::class)->only('store', 'index');
     Route::apiResource('tasks', TaskController::class)->only('update', 'destroy');
     Route::patch('tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');

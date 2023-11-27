@@ -81,7 +81,6 @@ class TaskPolicy
         if ($this->taskPolicyService->completedTask($user, $task)) {
             return $this->denyCompletedTask();
         }
-        $t = $this->taskPolicyService->hasNotCompletedChildren($task);
         if ($this->taskPolicyService->hasNotCompletedChildren($task)) {
             return $this->denyNotCompletedChildren();
         }

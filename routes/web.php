@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,3 +12,8 @@
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::get('/', function () {
+    return '<html><br><h1><a href="/api/docs">API Documentation</a></h1></html>';
+});

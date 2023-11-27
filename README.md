@@ -69,3 +69,11 @@ Feel free to explore the API examples in the Laravel PHP files provided in the `
 Explore the API using Swagger documentation by navigating to [http://127.0.0.1:8008/api/docs](http://127.0.0.1:8008/api/docs). 
 
 This interactive documentation provides detailed information about the available endpoints, request payloads, and responses. Use it to test and understand the functionalities offered by the Todo List REST API.
+
+## Running Tests
+
+To run tests for the Laravel Todo List REST API, execute the following command inside the running Docker container:
+
+```bash
+docker exec todo_list_laravel_api_container bash -c 'php artisan test'
+```
