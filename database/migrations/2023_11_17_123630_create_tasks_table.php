@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::create('tasks', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
             $table->foreignUuid('parent_id')->nullable();
-            $table->foreignUuid('user_id')->nullable()->index();
+            $table->foreignUuid('user_id')->index();
             $table->unsignedTinyInteger('status')->default(1);
             $table->unsignedTinyInteger('priority');
             $table->string('title');
