@@ -87,7 +87,7 @@ class UserTaskController extends AbstractTaskController
     public function index(IndexTaskRequest $request, User $user)
     {
         $requestData = FilterTaskDTO::from($request->validated());
-        $tasks = $this->iTaskService->getAll($requestData, $user);
+        $tasks = $this->taskService->getAll($requestData, $user);
         $tasks = $tasks->paginate();
 
         return new TaskCollection($tasks);
@@ -146,7 +146,7 @@ class UserTaskController extends AbstractTaskController
         $this->authorize('create', [Task::class, $request->input('parent_id')]);
 
         $taskData = StoreTaskDTO::from($request->validated());
-        $task = $this->iTaskService->create($taskData, $user);
+        $task = $this->taskService->create($taskData, $user);
         $taskDTO = TaskDTO::from($task);
 
         return new TaskResource($taskDTO);

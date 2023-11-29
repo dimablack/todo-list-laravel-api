@@ -78,7 +78,7 @@ class TaskController extends AbstractTaskController
     public function update(UpdateTaskRequest $request, Task $task): TaskResource
     {
         $taskData = UpdateTaskDTO::from($request->validated());
-        $task = $this->iTaskService->update($taskData, $task);
+        $task = $this->taskService->update($taskData, $task);
         $taskDTO = TaskDTO::from($task);
 
         return new TaskResource($taskDTO);
@@ -128,7 +128,7 @@ class TaskController extends AbstractTaskController
         $this->authorize('complete', $task);
 
         $completeData = new CompleteTaskDTO();
-        $task = $this->iTaskService->update($completeData, $task);
+        $task = $this->taskService->update($completeData, $task);
         $taskDTO = TaskDTO::from($task);
 
         return new TaskResource($taskDTO);

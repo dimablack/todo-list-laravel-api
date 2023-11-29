@@ -32,7 +32,7 @@ use OpenApi\Annotations as OA;
  */
 abstract class AbstractTaskController extends ApiController
 {
-    public function __construct(protected TaskServiceInterface $iTaskService)
+    public function __construct(protected TaskServiceInterface $taskService)
     {
     }
 }
