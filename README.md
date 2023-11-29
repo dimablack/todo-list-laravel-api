@@ -26,13 +26,25 @@ or
 ```bash
 docker exec todo_list_laravel_api_container bash -c 'composer setup'
 ```
-
+___
+___
 ### From the Second Time Onwards:
 ```bash
 docker-compose up -d
 docker exec -it todo_list_laravel_api_container bash
 ```
-
+___
+___
+### Rebuild Docker images:
+```bash
+docker-compose build
+```
+#### *without cache
+```bash
+docker-compose build --no-cache
+```
+___
+___
 ### Stop Docker containers
 ```bash
 docker-compose stop
@@ -43,7 +55,8 @@ docker-compose stop
 ```bash
 docker-compose down
 ```
-
+___
+___
 ## Database Operations
 
 ### Run All Outstanding Migrations
@@ -73,13 +86,15 @@ This seed creates two users with emails:
 ```bash
 docker exec todo_list_laravel_api_container bash -c 'php artisan migrate:fresh --seed'
 ```
-
+___
+___
 ## Open an Interactive Shell (Bash) Inside a Running Docker Container
 
 ```bash
 docker exec -it todo_list_laravel_api_container bash
 ```
-
+___
+___
 ## Documentation
 
 Explore the API using Swagger documentation by navigating to [http://127.0.0.1:8008/api/docs](http://127.0.0.1:8008/api/docs).
@@ -87,11 +102,12 @@ Explore the API using Swagger documentation by navigating to [http://127.0.0.1:8
 To use a different port other than **`8008`**, edit the **`APP_PORT=8008`** in the .env file.
 
 This interactive documentation provides detailed information about the available endpoints, request payloads, and responses. Use it to test and understand the functionalities offered by the Todo List REST API.
-
+___
+___
 ## Running Tests
 
 To run tests for the Laravel Todo List REST API, execute the following command inside the running Docker container:
 
 ```bash
-docker exec todo_list_laravel_api_container bash -c 'php artisan test'
+docker exec todo_list_laravel_api_container bash -c 'php artisan test php artisan test --env=testing'
 ```
